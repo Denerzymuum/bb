@@ -18,10 +18,13 @@ def create_new_token():
     }
     try:
         response = requests.get(url=url, headers=headers)
+        logging.info(f'response {response} выполнено успешно')
         if response.status_code == 200:
             token_data = response.json()  # вытаскиваем из ответа iam_token
+            logging.info(f'token_data {token_data} выполнено успешно')
             # добавляем время истечения iam_token к текущему времени
             token_data['expires_at'] = time.time() + token_data['expires_in']
+            logging.info(f"token_data[expires_at] {token_data['expires_at']} выполнено успешно")
             # записываем iam_token в файл
             with open(IAM_TOKEN_PATH, "w") as token_file:
                 json.dump(token_data, token_file)
